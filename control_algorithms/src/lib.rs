@@ -1,5 +1,11 @@
+pub mod linear_feedback;
 
-pub struct TestStruct {
-    pub name: String,
-    pub age: u32
+pub struct ControlSystems {
+
+}
+
+impl ControlSystems {
+    pub fn new() -> Self {
+        unimplemented!();
+    }
 }
