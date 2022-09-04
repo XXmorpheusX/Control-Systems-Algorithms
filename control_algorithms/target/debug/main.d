@@ -1,0 +1,1 @@
+/home/albertofots/teamDiana/Control-Systems-Algorithms/control_algorithms/target/debug/main: /home/albertofots/teamDiana/Control-Systems-Algorithms/control_algorithms/src/bin/main.rs /home/albertofots/teamDiana/Control-Systems-Algorithms/control_algorithms/src/lib.rs

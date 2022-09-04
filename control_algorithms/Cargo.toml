@@ -1,0 +1,25 @@
+[package]
+name = "control_algorithms"
+version = "0.1.0"
+authors = ["Alberto Foti <albertofots@gmail.com>"]
+edition = "2021"
+description = "A rust library for control systems algorithms."
+readme = "README.md"
+repository = "https://github.com/XXmorpheusX/PacketSnooper.git"
+license = "MIT"
+keywords = ["control", "systems", "algorithms", "optimization"]
+
+[lib]
+name = "control_algorithms"
+path = "src/lib.rs"    # The source file of the target.
+test = true            # Is tested by default.
+doctest = false        # Documentation examples are tested by default.
+crate-type = ["lib"]   # The crate types to generate.
+
+[[bin]]
+name = "main"
+test = false
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
