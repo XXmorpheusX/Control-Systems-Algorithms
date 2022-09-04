@@ -1,4 +1,6 @@
-pub mod linear_feedback;
+pub mod linear_algebra;
+pub mod control_systems;
+pub mod plants;
 
 pub struct ControlSystems {
 
@@ -6,6 +8,6 @@ pub struct ControlSystems {
 
 impl ControlSystems {
     pub fn new() -> Self {
-        unimplemented!();
+        Self {}
     }
 }
