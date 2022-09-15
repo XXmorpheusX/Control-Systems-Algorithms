@@ -1,4 +1,5 @@
 use crate::control_systems::ControlAlgorithm;
+use crate::linear_algebra::vec3D::vec3D::Vec3D;
 use crate::plants::Plant;
 
 pub mod linear_algebra;
@@ -6,22 +7,39 @@ pub mod control_systems;
 pub mod plants;
 
 pub trait System {
-
+    fn step(&mut self);
 }
 
-pub struct ControlSystem {
+pub struct AutonomousRegularizer {
     algorithm: Box<dyn ControlAlgorithm>,
     plant: Box<dyn Plant>,
+    x0: Vec3D,
+    v0: Vec3D,
+    xt: Vec3D,
+    vt: Vec3D,
+    x: Vec3D,
+    v: Vec3D,
 }
 
-impl ControlSystem {
-    pub fn new(algorithm: Box<dyn ControlAlgorithm>, plant: Box<dyn Plant>) -> Box<dyn System> {
-        Box::new(ControlSystem { algorithm, plant })
+impl AutonomousRegularizer {
+    pub fn new(algorithm: Box<dyn ControlAlgorithm>, plant: Box<dyn Plant>, x0: Vec3D, v0: Vec3D, xt: Vec3D, vt: Vec3D) -> Box<dyn System> {
+        Box::new(AutonomousRegularizer {
+            algorithm,
+            plant,
+            x0,
+            v0,
+            xt,
+            vt,
+            x: x0,
+            v: v0,
+        })
     }
 }
 
-impl System for ControlSystem {
-
+impl System for AutonomousRegularizer {
+    fn step(&mut self) {
+        println!("x: {}, v: {}", self.x, self.v);
+    }
 }
 
 pub struct ControlSimulation {
@@ -44,7 +62,10 @@ impl ControlSimulation {
     }
 
     pub fn step(&mut self) {
-        println!(">>> {}", self.sim_time);
+        println!(">>> {:.2}", self.sim_time);
+        self.system.step();
+        println!("---------------");
+
         self.sim_time += self.step_time;
     }
 
