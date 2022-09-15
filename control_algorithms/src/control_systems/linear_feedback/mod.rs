@@ -1,14 +1,14 @@
+use crate::control_systems::ControlAlgorithm;
 
 pub struct LinearFeedbackControl {
-
 }
 
 impl LinearFeedbackControl {
-    pub fn new() -> Self {
-        unimplemented!();
+    pub fn new() -> Box<dyn ControlAlgorithm> {
+        Box::new(LinearFeedbackControl {})
     }
+}
 
-    pub fn set_target_pos(x: f64, y: f64, z: f64) {
+impl ControlAlgorithm for LinearFeedbackControl {
 
-    }
 }
