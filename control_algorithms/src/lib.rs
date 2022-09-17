@@ -7,7 +7,7 @@ pub mod controllers;
 pub mod plants;
 
 pub trait System {
-    fn step(&mut self, ts: f64);
+    fn step(&mut self, ts: f64) -> (Vec3D, Vec3D);
 }
 
 pub struct AutonomousRegularizer {
@@ -25,10 +25,11 @@ impl AutonomousRegularizer {
 }
 
 impl System for AutonomousRegularizer {
-    fn step(&mut self, ts: f64) {
+    fn step(&mut self, ts: f64) -> (Vec3D, Vec3D) {
         let (x, v) = self.plant.compute(ts);
         let u = self.algorithm.compute(x, v);
         self.plant.feed(u);
+        (x, v)
     }
 }
 
@@ -51,12 +52,13 @@ impl ControlSimulation {
         }
     }
 
-    pub fn step(&mut self) {
+    pub fn step(&mut self) -> (Vec3D, Vec3D) {
         //println!(">>> {:.2}", self.sim_time);
-        self.system.step(self.step_time);
+        let res = self.system.step(self.step_time);
         //println!("---------------");
 
         self.sim_time += self.step_time;
+        res
     }
 
     pub fn ended(&self) -> bool {

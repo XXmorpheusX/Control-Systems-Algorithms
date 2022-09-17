@@ -39,7 +39,7 @@ impl Vec3D {
 
 impl Display for Vec3D {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "[{:.2} {:.2} {:.2}]", self.x, self.y, self.z)
+        write!(f, "{:.2} {:.2} {:.2}", self.x, self.y, self.z)
     }
 }
 

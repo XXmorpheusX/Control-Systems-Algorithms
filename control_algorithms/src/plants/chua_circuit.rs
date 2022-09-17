@@ -30,7 +30,6 @@ impl Plant for ChuaCircuit {
         // Output preparation
         let mut out_v = Vec3D::new(v1, v2, v3);
         let mut out_x = self.x + out_v * ts;
-        println!("{} {}", self.x, self.v);
         //println!("Current State : {} - {}  |  Input : {}", self.x, self.v, self.u);
         //println!("Output: {} - {}", out_x, out_v);
 
