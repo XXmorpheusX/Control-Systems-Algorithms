@@ -1,9 +1,18 @@
+use std::thread::sleep;
+use std::time::Duration;
 use control_algorithms::{ControlSimulation, AutonomousRegularizer};
 use control_algorithms::controllers::void_control::VoidControl;
 use control_algorithms::linear_algebra::vec3D::Vec3D;
 use control_algorithms::plants::chua_circuit::ChuaCircuit;
+use serde::{Serialize, Deserialize};
 use paho_mqtt as mqtt;
 use paho_mqtt::Message;
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Data {
+    x: Vec3D,
+    v: Vec3D,
+}
 
 fn main() {
 
@@ -31,11 +40,15 @@ fn main() {
     loop {
         let (x, v) = sim.step();
 
-        cli.publish(Message::new("CTRL/out/x", format!("{}", x), 2));
-        cli.publish(Message::new("CTRL/out/v", format!("{}", v), 2));
+        let data = Data { x, v };
+        let data_json = serde_json::to_string(&data).unwrap();
+        cli.publish(Message::new("CTRL/out", data_json, 2));
 
         if sim.ended() { break; }
+        sleep(Duration::from_millis(5))
     }
 
+    cli.publish(Message::new("CTRL/end", "1", 2));
     println!("Simulation End.");
+    sleep(Duration::from_secs(1))
 }

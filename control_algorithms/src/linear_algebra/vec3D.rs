@@ -2,6 +2,7 @@ use std::borrow::Borrow;
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
 use std::ops::{Add, Index, Mul};
+use serde::{Serialize, Deserialize};
 
 #[derive(Debug)]
 pub struct VEC_ERROR {
@@ -24,7 +25,7 @@ impl Error for VEC_ERROR {}
 
 type Result<T> = std::result::Result<T, VEC_ERROR>;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy)]
 pub struct Vec3D {
     x: f64,
     y: f64,
