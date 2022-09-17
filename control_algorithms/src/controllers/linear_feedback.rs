@@ -14,6 +14,8 @@ pub mod linear_feedback {
     }
 
     impl ControlAlgorithm for LinearFeedbackControl {
-
+        fn compute(&mut self, _x: Vec3D, _v: Vec3D) -> Vec3D {
+            Vec3D::new(0.0, 0.0, 0.0)
+        }
     }
 }

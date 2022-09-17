@@ -7,7 +7,14 @@ fn main() {
 
     let mut system = AutonomousRegularizer::new(
         VoidControl::new(),
-        ChuaCircuit::new(Vec3D::new(0.0, 0.0, 0.0), Vec3D::new(1.0, -1.0, 0.0)),
+        ChuaCircuit::new(
+            0.1,
+            10.4,
+            16.5,
+            -1.16,
+            0.041,
+            Vec3D::new(0.1, 0.2, -0.1),
+            Vec3D::new(1.0, -1.0, 0.0)),
     );
 
     let mut sim = ControlSimulation::new(system, 0.0, 10.0, 0.5);

@@ -26,7 +26,9 @@ impl AutonomousRegularizer {
 
 impl System for AutonomousRegularizer {
     fn step(&mut self) {
-        self.plant.compute();
+        let (x, v) = self.plant.compute();
+        let u = self.algorithm.compute(x, v);
+        self.plant.feed(u);
     }
 }
 
@@ -50,7 +52,7 @@ impl ControlSimulation {
     }
 
     pub fn step(&mut self) {
-        println!(">>> {:.2}", self.sim_time);
+        //println!(">>> {:.2}", self.sim_time);
         self.system.step();
         println!("---------------");
 
