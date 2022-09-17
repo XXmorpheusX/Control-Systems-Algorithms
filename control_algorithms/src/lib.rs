@@ -1,9 +1,9 @@
-use crate::control_systems::ControlAlgorithm;
-use crate::linear_algebra::vec3D::vec3D::Vec3D;
+use crate::controllers::ControlAlgorithm;
+use crate::linear_algebra::vec3D::Vec3D;
 use crate::plants::Plant;
 
 pub mod linear_algebra;
-pub mod control_systems;
+pub mod controllers;
 pub mod plants;
 
 pub trait System {
@@ -13,32 +13,20 @@ pub trait System {
 pub struct AutonomousRegularizer {
     algorithm: Box<dyn ControlAlgorithm>,
     plant: Box<dyn Plant>,
-    x0: Vec3D,
-    v0: Vec3D,
-    xt: Vec3D,
-    vt: Vec3D,
-    x: Vec3D,
-    v: Vec3D,
 }
 
 impl AutonomousRegularizer {
-    pub fn new(algorithm: Box<dyn ControlAlgorithm>, plant: Box<dyn Plant>, x0: Vec3D, v0: Vec3D, xt: Vec3D, vt: Vec3D) -> Box<dyn System> {
+    pub fn new(algorithm: Box<dyn ControlAlgorithm>, plant: Box<dyn Plant>) -> Box<dyn System> {
         Box::new(AutonomousRegularizer {
             algorithm,
             plant,
-            x0,
-            v0,
-            xt,
-            vt,
-            x: x0,
-            v: v0,
         })
     }
 }
 
 impl System for AutonomousRegularizer {
     fn step(&mut self) {
-        println!("x: {}, v: {}", self.x, self.v);
+        self.plant.compute();
     }
 }
 
@@ -70,10 +58,6 @@ impl ControlSimulation {
     }
 
     pub fn ended(&self) -> bool {
-        if self.sim_time > self.tf {
-            true
-        } else {
-            false
-        }
+        self.sim_time > self.tf
     }
 }
