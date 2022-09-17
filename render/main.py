@@ -12,20 +12,23 @@ z = []
 
 def on_message(client, userdata, message):
     if message.topic == "CTRL/end":
-        print("hello")
-        fig = plt.figure()
-        ax = plt.axes(projection="3d")
-        ax.plot3D(x, y, z, 'gray')
+        ax = plt.figure(figsize=(10,10)).add_subplot(projection='3d')
+        ax.plot3D(x, y, z, 'green')
+        ax.set_xlabel("X Axis")
+        ax.set_ylabel("Y Axis")
+        ax.set_zlabel("Z Axis")
+        ax.set_title("Chua Attractor")
         plt.show()
-        time.sleep(5)
+
+        x.clear()
+        y.clear()
+        z.clear()
         return
 
     data = json.loads(message.payload)
     x.append(data["x"]["x"])
     y.append(data["x"]["y"])
     z.append(data["x"]["z"])
-    print(x)
-    print("-----------------")
 
 
 if __name__ == "__main__":

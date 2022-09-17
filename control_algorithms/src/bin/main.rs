@@ -35,7 +35,7 @@ fn main() {
             Vec3D::new(0.1, 0.2, -0.1),
             Vec3D::new(1.0, -1.0, 0.0)),
     );
-    let mut sim = ControlSimulation::new(system, 0.0, 10.0, 0.01);
+    let mut sim = ControlSimulation::new(system, 0.0, 100.0, 0.005);
 
     loop {
         let (x, v) = sim.step();
@@ -45,7 +45,7 @@ fn main() {
         cli.publish(Message::new("CTRL/out", data_json, 2));
 
         if sim.ended() { break; }
-        sleep(Duration::from_millis(5))
+        sleep(Duration::from_nanos(100))
     }
 
     cli.publish(Message::new("CTRL/end", "1", 2));
