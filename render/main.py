@@ -8,13 +8,15 @@ z = []
 
 
 def on_message(client, userdata, message):
+    #print(str(message.payload))
+
     if message.topic == "CTRL/end":
+        print("plotting...")
         ax = plt.figure(figsize=(10,10)).add_subplot(projection='3d')
-        ax.plot3D(x, y, z, 'green')
+        ax.plot3D(x, y, z, 'blue')
         ax.set_xlabel("X Axis")
         ax.set_ylabel("Y Axis")
         ax.set_zlabel("Z Axis")
-        ax.set_title("Chua Attractor")
         plt.show()
 
         x.clear()

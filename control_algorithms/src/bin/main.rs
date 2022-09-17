@@ -7,6 +7,7 @@ use control_algorithms::plants::chua_circuit::ChuaCircuit;
 use serde::{Serialize, Deserialize};
 use paho_mqtt as mqtt;
 use paho_mqtt::Message;
+use control_algorithms::plants::lorenz_attractor::LorenzAttractor;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Data {
@@ -35,7 +36,21 @@ fn main() {
             Vec3D::new(0.1, 0.2, -0.1),
             Vec3D::new(1.0, -1.0, 0.0)),
     );
-    let mut sim = ControlSimulation::new(system, 0.0, 100.0, 0.005);
+
+    /*
+    let mut system = AutonomousRegularizer::new(
+        VoidControl::new(),
+        LorenzAttractor::new(
+            10.0,
+            2.666667,
+            28.0,
+            Vec3D::new(1.2, 1.3, 1.6),
+            Vec3D::new(0.0, 0.0, 0.0),
+        )
+    );
+    */
+
+    let mut sim = ControlSimulation::new(system, 0.0, 150.0, 0.005);
 
     loop {
         let (x, v) = sim.step();
@@ -45,10 +60,11 @@ fn main() {
         cli.publish(Message::new("CTRL/out", data_json, 2));
 
         if sim.ended() { break; }
-        sleep(Duration::from_nanos(100))
+        sleep(Duration::from_millis(1));
     }
 
     cli.publish(Message::new("CTRL/end", "1", 2));
     println!("Simulation End.");
-    sleep(Duration::from_secs(1))
+    sleep(Duration::from_secs(3));
+    println!("Stop")
 }

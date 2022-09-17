@@ -6,3 +6,4 @@ pub trait Plant {
 }
 
 pub mod chua_circuit;
+pub mod lorenz_attractor;
