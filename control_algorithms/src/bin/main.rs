@@ -17,7 +17,7 @@ fn main() {
             Vec3D::new(1.0, -1.0, 0.0)),
     );
 
-    let mut sim = ControlSimulation::new(system, 0.0, 10.0, 0.5);
+    let mut sim = ControlSimulation::new(system, 0.0, 10.0, 0.01);
 
     loop {
         sim.step();

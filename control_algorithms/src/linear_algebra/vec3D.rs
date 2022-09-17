@@ -1,7 +1,7 @@
 use std::borrow::Borrow;
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
-use std::ops::{Add, Index};
+use std::ops::{Add, Index, Mul};
 
 #[derive(Debug)]
 pub struct VEC_ERROR {
@@ -63,5 +63,13 @@ impl Add<Vec3D> for Vec3D {
 
     fn add(self, rhs: Vec3D) -> Self::Output {
         Vec3D::new(self.x + rhs.x, self.y + rhs.y, self.z + rhs.z)
+    }
+}
+
+impl Mul<f64> for Vec3D {
+    type Output = Vec3D;
+
+    fn mul(self, rhs: f64) -> Self::Output {
+        Vec3D::new(self.x * rhs, self.y * rhs, self.z * rhs)
     }
 }

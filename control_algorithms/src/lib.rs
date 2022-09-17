@@ -7,7 +7,7 @@ pub mod controllers;
 pub mod plants;
 
 pub trait System {
-    fn step(&mut self);
+    fn step(&mut self, ts: f64);
 }
 
 pub struct AutonomousRegularizer {
@@ -25,8 +25,8 @@ impl AutonomousRegularizer {
 }
 
 impl System for AutonomousRegularizer {
-    fn step(&mut self) {
-        let (x, v) = self.plant.compute();
+    fn step(&mut self, ts: f64) {
+        let (x, v) = self.plant.compute(ts);
         let u = self.algorithm.compute(x, v);
         self.plant.feed(u);
     }
@@ -53,8 +53,8 @@ impl ControlSimulation {
 
     pub fn step(&mut self) {
         //println!(">>> {:.2}", self.sim_time);
-        self.system.step();
-        println!("---------------");
+        self.system.step(self.step_time);
+        //println!("---------------");
 
         self.sim_time += self.step_time;
     }
