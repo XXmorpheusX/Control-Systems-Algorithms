@@ -10,6 +10,29 @@ z = []
 def on_message(client, userdata, message):
     #print(str(message.payload))
 
+    if message.topic == "CTRL/out2d":
+        data = json.loads(message.payload)
+        x.append(data["x"]["x"])
+        y.append(data["v"]["x"])
+        return
+
+    if message.topic == "CTRL/out":
+        data = json.loads(message.payload)
+        x.append(data["x"]["x"])
+        y.append(data["x"]["y"])
+        z.append(data["x"]["z"])
+        return
+
+    if message.topic == "CTRL/end2d":
+        print("plotting 2d...")
+        plt.plot(x, y)
+        plt.show()
+
+        x.clear()
+        y.clear()
+        z.clear()
+        return
+
     if message.topic == "CTRL/end":
         print("plotting...")
         ax = plt.figure(figsize=(10,10)).add_subplot(projection='3d')
@@ -24,11 +47,6 @@ def on_message(client, userdata, message):
         z.clear()
         return
 
-    data = json.loads(message.payload)
-    x.append(data["x"]["x"])
-    y.append(data["x"]["y"])
-    z.append(data["x"]["z"])
-
 
 if __name__ == "__main__":
     print("Setting up mqtt connection")
@@ -38,6 +56,8 @@ if __name__ == "__main__":
     print("Successfully connected to mqtt broker")
 
     print("Subscribing to output topics")
+    mqttc.subscribe("CTRL/out2d", 2)
+    mqttc.subscribe("CTRL/end2d", 2)
     mqttc.subscribe("CTRL/out", 2)
     mqttc.subscribe("CTRL/end", 2)
 

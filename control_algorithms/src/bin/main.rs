@@ -8,6 +8,9 @@ use serde::{Serialize, Deserialize};
 use paho_mqtt as mqtt;
 use paho_mqtt::Message;
 use control_algorithms::plants::lorenz_attractor::LorenzAttractor;
+use control_algorithms::plants::pendulum::Pendulum;
+
+const simulation_type : usize = 2;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Data {
@@ -25,6 +28,7 @@ fn main() {
     println!("Mqtt Works correctly.");
 
     // System Definition
+    /*
     let mut system = AutonomousRegularizer::new(
         VoidControl::new(),
         ChuaCircuit::new(
@@ -37,7 +41,7 @@ fn main() {
             Vec3D::new(1.0, -1.0, 0.0)),
     );
 
-    /*
+
     let mut system = AutonomousRegularizer::new(
         VoidControl::new(),
         LorenzAttractor::new(
@@ -48,22 +52,42 @@ fn main() {
             Vec3D::new(0.0, 0.0, 0.0),
         )
     );
-    */
+     */
 
-    let mut sim = ControlSimulation::new(system, 0.0, 150.0, 0.005);
+    let mut system = AutonomousRegularizer::new(
+        VoidControl::new(),
+        Pendulum::new(
+            1.0,
+            0.8,
+            0.6,
+            Vec3D::new(0.785, 0.0, 0.0),
+            Vec3D::new(0.785, 0.0, 0.0),
+        ),
+    );
+
+    let mut sim = ControlSimulation::new(system, 0.0, 100.0, 0.01);
 
     loop {
         let (x, v) = sim.step();
 
         let data = Data { x, v };
         let data_json = serde_json::to_string(&data).unwrap();
-        cli.publish(Message::new("CTRL/out", data_json, 2));
+
+        if simulation_type == 2 {
+            cli.publish(Message::new("CTRL/out2d", data_json, 2));
+        } else if simulation_type == 3 {
+            cli.publish(Message::new("CTRL/out", data_json, 2));
+        }
 
         if sim.ended() { break; }
         sleep(Duration::from_millis(1));
     }
 
-    cli.publish(Message::new("CTRL/end", "1", 2));
+    if simulation_type == 2 {
+        cli.publish(Message::new("CTRL/end2d", "1", 2));
+    } else if simulation_type == 3 {
+        cli.publish(Message::new("CTRL/end", "1", 2));
+    }
     println!("Simulation End.");
     sleep(Duration::from_secs(3));
     println!("Stop")

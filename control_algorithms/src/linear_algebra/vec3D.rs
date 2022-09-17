@@ -1,7 +1,7 @@
 use std::borrow::Borrow;
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
-use std::ops::{Add, Index, Mul};
+use std::ops::{Add, Index, Mul, Sub};
 use serde::{Serialize, Deserialize};
 
 #[derive(Debug)]
@@ -64,6 +64,14 @@ impl Add<Vec3D> for Vec3D {
 
     fn add(self, rhs: Vec3D) -> Self::Output {
         Vec3D::new(self.x + rhs.x, self.y + rhs.y, self.z + rhs.z)
+    }
+}
+
+impl Sub<Vec3D> for Vec3D {
+    type Output = Vec3D;
+
+    fn sub(self, rhs: Vec3D) -> Self::Output {
+        Vec3D::new(self.x - rhs.x, self.y - rhs.y, self.z - rhs.z)
     }
 }
 
