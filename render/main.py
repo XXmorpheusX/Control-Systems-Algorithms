@@ -1,9 +1,6 @@
-import paho.mqtt.client as mqtt
 import json
-import time
-from mpl_toolkits import mplot3d
-import numpy as np
 import matplotlib.pyplot as plt
+import paho.mqtt.client as mqtt
 
 x = []
 y = []
