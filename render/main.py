@@ -13,7 +13,7 @@ def on_message(client, userdata, message):
     if message.topic == "CTRL/out2d":
         data = json.loads(message.payload)
         x.append(data["x"]["x"])
-        y.append(data["v"]["x"])
+        y.append(data["x"]["y"])
         return
 
     if message.topic == "CTRL/out":
@@ -38,7 +38,7 @@ def on_message(client, userdata, message):
         print("plotting...")
         plt.style.use('dark_background')
         ax = plt.figure(figsize=(10,10)).add_subplot(projection='3d')
-        ax.plot3D(x, y, z, 'yellow')
+        ax.plot3D(x, y, z, 'green')
         ax.set_xlabel("X Axis")
         ax.set_ylabel("Y Axis")
         ax.set_zlabel("Z Axis")

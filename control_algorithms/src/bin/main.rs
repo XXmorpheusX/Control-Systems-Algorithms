@@ -9,8 +9,9 @@ use paho_mqtt as mqtt;
 use paho_mqtt::Message;
 use control_algorithms::plants::lorenz_attractor::LorenzAttractor;
 use control_algorithms::plants::pendulum::Pendulum;
+use control_algorithms::plants::van_der_pol_oscillator::VanDerPolOscillator;
 
-const simulation_type : &'static str = "3D";
+const simulation_type : &'static str = "2D";
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Data {
@@ -27,8 +28,8 @@ fn main() {
     tok.wait().unwrap();
     println!("Mqtt Works correctly.");
 
-    // System Definition
     /*
+    // System Definition
     let mut system = AutonomousRegularizer::new(
         VoidControl::new(),
         ChuaCircuit::new(
@@ -40,9 +41,9 @@ fn main() {
             Vec3D::new(0.1, 0.2, -0.1),
             Vec3D::new(1.0, -1.0, 0.0)),
     );
+    */
 
-     */
-
+    /*
     let mut system = AutonomousRegularizer::new(
         VoidControl::new(),
         LorenzAttractor::new(
@@ -53,6 +54,8 @@ fn main() {
             Vec3D::new(0.0, 0.0, 0.0),
         )
     );
+
+     */
 
     /*
     let mut system = AutonomousRegularizer::new(
@@ -68,7 +71,16 @@ fn main() {
 
      */
 
-    let mut sim = ControlSimulation::new(system, 0.0, 100.0, 0.001);
+    let mut system = AutonomousRegularizer::new(
+        VoidControl::new(),
+        VanDerPolOscillator::new(
+            4.0,
+            Vec3D::new(0.785, 0.234, 0.0),
+            Vec3D::new(0.0, 0.0, 0.0),
+        )
+    );
+
+    let mut sim = ControlSimulation::new(system, 0.0, 50.0, 0.001);
 
     loop {
         let (x, v) = sim.step();

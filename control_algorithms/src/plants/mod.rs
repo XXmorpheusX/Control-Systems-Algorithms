@@ -8,3 +8,4 @@ pub trait Plant {
 pub mod chua_circuit;
 pub mod lorenz_attractor;
 pub mod pendulum;
+pub mod van_der_pol_oscillator;
