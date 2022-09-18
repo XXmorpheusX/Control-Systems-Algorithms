@@ -1,17 +1,16 @@
 use std::thread::sleep;
 use std::time::Duration;
-use control_algorithms::{ControlSimulation, AutonomousRegularizer};
 use control_algorithms::controllers::void_control::VoidControl;
 use control_algorithms::linear_algebra::vec3D::Vec3D;
-use control_algorithms::plants::chua_circuit::ChuaCircuit;
 use serde::{Serialize, Deserialize};
 use paho_mqtt as mqtt;
 use paho_mqtt::Message;
+use control_algorithms::ControlSimulation;
 use control_algorithms::plants::lorenz_attractor::LorenzAttractor;
-use control_algorithms::plants::pendulum::Pendulum;
 use control_algorithms::plants::van_der_pol_oscillator::VanDerPolOscillator;
+use control_algorithms::systems::autonomous_regularizer::AutonomousRegularizer;
 
-const simulation_type : &'static str = "2D";
+const SIMULATION_TYPE: &'static str = "3D";
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Data {
@@ -23,8 +22,8 @@ fn main() {
 
     // Mqtt connection
     println!("Setting up mqtt connection...");
-    let mut cli = mqtt::AsyncClient::new("tcp://localhost:1883").unwrap();
-    let mut tok = cli.connect(mqtt::ConnectOptions::new());
+    let cli = mqtt::AsyncClient::new("tcp://localhost:1883").unwrap();
+    let tok = cli.connect(mqtt::ConnectOptions::new());
     tok.wait().unwrap();
     println!("Mqtt Works correctly.");
 
@@ -43,19 +42,16 @@ fn main() {
     );
     */
 
-    /*
     let mut system = AutonomousRegularizer::new(
         VoidControl::new(),
         LorenzAttractor::new(
             10.0,
             2.666667,
             28.0,
-            Vec3D::new(1.2, 1.3, 1.6),
+            Vec3D::new(1.0, 1.0, 1.0),
             Vec3D::new(0.0, 0.0, 0.0),
         )
     );
-
-     */
 
     /*
     let mut system = AutonomousRegularizer::new(
@@ -71,7 +67,8 @@ fn main() {
 
      */
 
-    let mut system = AutonomousRegularizer::new(
+    /*
+    let system = AutonomousRegularizer::new(
         VoidControl::new(),
         VanDerPolOscillator::new(
             4.0,
@@ -79,8 +76,9 @@ fn main() {
             Vec3D::new(0.0, 0.0, 0.0),
         )
     );
+     */
 
-    let mut sim = ControlSimulation::new(system, 0.0, 50.0, 0.001);
+    let mut sim = ControlSimulation::new(system, 100.0, 0.005);
 
     loop {
         let (x, v) = sim.step();
@@ -88,7 +86,7 @@ fn main() {
         let data = Data { x, v };
         let data_json = serde_json::to_string(&data).unwrap();
 
-        match simulation_type {
+        match SIMULATION_TYPE {
             "2D" => {
                 cli.publish(Message::new("CTRL/out2d", data_json, 2));
             },
@@ -104,7 +102,7 @@ fn main() {
         sleep(Duration::from_millis(1));
     }
 
-    match simulation_type {
+    match SIMULATION_TYPE {
         "2D" => {
             cli.publish(Message::new("CTRL/end2d", "1", 2));
         },

@@ -20,18 +20,21 @@ impl LorenzAttractor {
 impl Plant for LorenzAttractor {
     fn compute(&mut self, ts: f64) -> (Vec3D, Vec3D) {
         // calculations
-        //let v1 = self.sigma * (self.x[2] - self.x[1]);
-        //let v2 = self.x[1] * (self.rho + self.x[3]) - self.x[2];
-        //let v3 = self.x[1] * self.x[2] - self.beta * self.x[3];
-        let x1 = self.x[1] + self.sigma * (self.x[2] - self.x[1]) * ts;
-        let x2 = self.x[2] + (self.rho * self.x[1] - self.x[2] - self.x[1] * self.x[3]) * ts;
-        let x3 = self.x[3] + (self.x[1] * self.x[2] - self.beta * self.x[3]) * ts;
+        let v1 = self.sigma * (self.x[2] - self.x[1]);
+        let v2 = self.x[1] * (self.rho - self.x[3]) - self.x[2];
+        let v3 = self.x[1] * self.x[2] - self.beta * self.x[3];
+
+        //let x1 = self.x[1] + self.sigma * (self.x[2] - self.x[1]) * ts;
+        //let x2 = self.x[2] + (self.rho * self.x[1] - self.x[2] - self.x[1] * self.x[3]) * ts;
+        //let x3 = self.x[3] + (self.x[1] * self.x[2] - self.beta * self.x[3]) * ts;
 
         // Output preparation
-        //let mut out_v = Vec3D::new(v1, v2, v3);
-        //let mut out_x = self.x + out_v * ts;
-        let mut out_v = Vec3D::new(0.0, 0.0, 0.0);
-        let mut out_x = Vec3D::new(x1, x2, x3);
+
+        let mut out_v = Vec3D::new(v1, v2, v3);
+        let mut out_x = self.x + (out_v * ts);
+
+        //let out_v = Vec3D::new(0.0, 0.0, 0.0);
+        //let out_x = Vec3D::new(x1, x2, x3);
 
         // Updating plant state
         self.x = out_x;

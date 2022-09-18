@@ -5,8 +5,8 @@ pub struct Pendulum {
     pub m: f64,
     pub l: f64,
     pub beta: f64,
-    pub J: f64,
-    pub K: f64,
+    pub j: f64,
+    pub k: f64,
     pub x: Vec3D,
     pub v: Vec3D,
     pub u: Vec3D,
@@ -19,8 +19,8 @@ impl Pendulum {
             m,
             l,
             beta,
-            J: m * l.powi(2),
-            K: 9.81 * m * l,
+            j: m * l.powi(2),
+            k: 9.81 * m * l,
             x: x0,
             v: v0,
             u: u0 } )
@@ -30,9 +30,9 @@ impl Pendulum {
 impl Plant for Pendulum {
     fn compute(&mut self, ts: f64) -> (Vec3D, Vec3D) {
         // calculations
-        let a1 = 2.0 - ts * self.beta / self.J;
-        let a2 = ts * self.beta / self.J - 1.0;
-        let a3 = -1.0 * ts.powi(2) * self.K / self.J;
+        let a1 = 2.0 - ts * self.beta / self.j;
+        let a2 = ts * self.beta / self.j - 1.0;
+        let a3 = -1.0 * ts.powi(2) * self.k / self.j;
         //let b = ts.powi(2) / J;
 
         // Output preparation

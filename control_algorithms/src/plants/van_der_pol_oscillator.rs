@@ -22,8 +22,8 @@ impl Plant for VanDerPolOscillator {
         let v2 = (1.0 / self.mu) * self.x[1];
 
         // Output preparation
-        let mut out_v = Vec3D::new(v1, v2, 0.0);
-        let mut out_x = self.x + out_v * ts;
+        let out_v = Vec3D::new(v1, v2, 0.0);
+        let out_x = self.x + out_v * ts;
 
         // Updating plant state
         self.x = out_x;
