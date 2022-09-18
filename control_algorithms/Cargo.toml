@@ -1,6 +1,6 @@
 [package]
 name = "control_algorithms"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Alberto Foti <albertofots@gmail.com>"]
 edition = "2021"
 description = "A rust library for control systems algorithms."
