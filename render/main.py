@@ -25,6 +25,7 @@ def on_message(client, userdata, message):
 
     if message.topic == "CTRL/end2d":
         print("plotting 2d...")
+        plt.style.use('dark_background')
         plt.plot(x, y)
         plt.show()
 
@@ -35,11 +36,15 @@ def on_message(client, userdata, message):
 
     if message.topic == "CTRL/end":
         print("plotting...")
+        plt.style.use('dark_background')
         ax = plt.figure(figsize=(10,10)).add_subplot(projection='3d')
-        ax.plot3D(x, y, z, 'blue')
+        ax.plot3D(x, y, z, 'yellow')
         ax.set_xlabel("X Axis")
         ax.set_ylabel("Y Axis")
         ax.set_zlabel("Z Axis")
+        ax.w_xaxis.pane.fill = False
+        ax.w_yaxis.pane.fill = False
+        ax.w_zaxis.pane.fill = False
         plt.show()
 
         x.clear()

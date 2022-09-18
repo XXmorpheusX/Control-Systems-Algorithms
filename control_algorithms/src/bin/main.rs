@@ -10,7 +10,7 @@ use paho_mqtt::Message;
 use control_algorithms::plants::lorenz_attractor::LorenzAttractor;
 use control_algorithms::plants::pendulum::Pendulum;
 
-const simulation_type : usize = 2;
+const simulation_type : &'static str = "3D";
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Data {
@@ -41,6 +41,7 @@ fn main() {
             Vec3D::new(1.0, -1.0, 0.0)),
     );
 
+     */
 
     let mut system = AutonomousRegularizer::new(
         VoidControl::new(),
@@ -52,8 +53,8 @@ fn main() {
             Vec3D::new(0.0, 0.0, 0.0),
         )
     );
-     */
 
+    /*
     let mut system = AutonomousRegularizer::new(
         VoidControl::new(),
         Pendulum::new(
@@ -65,7 +66,9 @@ fn main() {
         ),
     );
 
-    let mut sim = ControlSimulation::new(system, 0.0, 100.0, 0.01);
+     */
+
+    let mut sim = ControlSimulation::new(system, 0.0, 100.0, 0.001);
 
     loop {
         let (x, v) = sim.step();
@@ -73,21 +76,34 @@ fn main() {
         let data = Data { x, v };
         let data_json = serde_json::to_string(&data).unwrap();
 
-        if simulation_type == 2 {
-            cli.publish(Message::new("CTRL/out2d", data_json, 2));
-        } else if simulation_type == 3 {
-            cli.publish(Message::new("CTRL/out", data_json, 2));
+        match simulation_type {
+            "2D" => {
+                cli.publish(Message::new("CTRL/out2d", data_json, 2));
+            },
+            "3D" => {
+                cli.publish(Message::new("CTRL/out", data_json, 2));
+            },
+            _ => {
+                println!("Something went wrong. Invalid simulation type selected")
+            }
         }
 
         if sim.ended() { break; }
         sleep(Duration::from_millis(1));
     }
 
-    if simulation_type == 2 {
-        cli.publish(Message::new("CTRL/end2d", "1", 2));
-    } else if simulation_type == 3 {
-        cli.publish(Message::new("CTRL/end", "1", 2));
+    match simulation_type {
+        "2D" => {
+            cli.publish(Message::new("CTRL/end2d", "1", 2));
+        },
+        "3D" => {
+            cli.publish(Message::new("CTRL/end", "1", 2));
+        },
+        _ => {
+            println!("Something went wrong. Invalid simulation type selected")
+        }
     }
+
     println!("Simulation End.");
     sleep(Duration::from_secs(3));
     println!("Stop")
