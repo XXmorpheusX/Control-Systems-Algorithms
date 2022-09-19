@@ -1,5 +1,5 @@
-use crate::linear_algebra::vec3D::Vec3D;
 use crate::plants::Plant;
+use linear_algebra::vec::vec3D::Vec3D;
 
 pub struct ChuaCircuit {
     pub r: f64,

@@ -1,4 +1,5 @@
-use crate::{ControlAlgorithm, Plant, System, Vec3D};
+use crate::{ControlAlgorithm, Plant, System};
+use linear_algebra::vec::vec3D::Vec3D;
 
 pub struct AutonomousRegularizer {
     algorithm: Box<dyn ControlAlgorithm>,

@@ -1,5 +1,5 @@
-use crate::linear_algebra::vec3D::Vec3D;
 use crate::plants::Plant;
+use linear_algebra::vec::vec3D::Vec3D;
 
 pub struct VanDerPolOscillator {
     pub mu: f64,
@@ -34,6 +34,5 @@ impl Plant for VanDerPolOscillator {
 
     fn feed(&mut self, u: Vec3D) {
         self.u = u;
-        //println!("Updating input u to : {}", self.u);
     }
 }

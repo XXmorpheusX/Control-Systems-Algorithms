@@ -1,4 +1,4 @@
-use crate::Vec3D;
+use linear_algebra::vec::vec3D::Vec3D;
 
 pub trait ControlAlgorithm {
     fn compute(&mut self, x: Vec3D, v: Vec3D) -> Vec3D;

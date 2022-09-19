@@ -1,16 +1,17 @@
 use std::thread::sleep;
 use std::time::Duration;
 use control_algorithms::controllers::void_control::VoidControl;
-use control_algorithms::linear_algebra::vec3D::Vec3D;
 use serde::{Serialize, Deserialize};
 use paho_mqtt as mqtt;
 use paho_mqtt::Message;
 use control_algorithms::ControlSimulation;
 use control_algorithms::plants::lorenz_attractor::LorenzAttractor;
+use control_algorithms::plants::pendulum::Pendulum;
 use control_algorithms::plants::van_der_pol_oscillator::VanDerPolOscillator;
 use control_algorithms::systems::autonomous_regularizer::AutonomousRegularizer;
+use linear_algebra::vec::vec3D::Vec3D;
 
-const SIMULATION_TYPE: &'static str = "3D";
+const SIMULATION_TYPE: &'static str = "2D";
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Data {
@@ -29,7 +30,7 @@ fn main() {
 
     /*
     // System Definition
-    let mut system = AutonomousRegularizer::new(
+    let system = AutonomousRegularizer::new(
         VoidControl::new(),
         ChuaCircuit::new(
             0.1,
@@ -42,7 +43,8 @@ fn main() {
     );
     */
 
-    let mut system = AutonomousRegularizer::new(
+    /*
+    let system = AutonomousRegularizer::new(
         VoidControl::new(),
         LorenzAttractor::new(
             10.0,
@@ -52,20 +54,18 @@ fn main() {
             Vec3D::new(0.0, 0.0, 0.0),
         )
     );
+     */
 
-    /*
-    let mut system = AutonomousRegularizer::new(
+    let system = AutonomousRegularizer::new(
         VoidControl::new(),
         Pendulum::new(
             1.0,
             0.8,
-            0.6,
+            0.075,
             Vec3D::new(0.785, 0.0, 0.0),
             Vec3D::new(0.785, 0.0, 0.0),
         ),
     );
-
-     */
 
     /*
     let system = AutonomousRegularizer::new(
@@ -78,7 +78,7 @@ fn main() {
     );
      */
 
-    let mut sim = ControlSimulation::new(system, 100.0, 0.005);
+    let mut sim = ControlSimulation::new(system, 30.0, 0.01);
 
     loop {
         let (x, v) = sim.step();

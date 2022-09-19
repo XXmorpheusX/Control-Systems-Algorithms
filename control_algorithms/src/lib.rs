@@ -1,11 +1,8 @@
-extern crate core;
-
 use crate::controllers::ControlAlgorithm;
-use crate::linear_algebra::vec3D::Vec3D;
 use crate::plants::Plant;
 use crate::systems::System;
+use linear_algebra::vec::vec3D::Vec3D;
 
-pub mod linear_algebra;
 pub mod controllers;
 pub mod plants;
 pub mod systems;

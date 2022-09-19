@@ -1,6 +1,6 @@
 pub mod linear_feedback {
     use crate::controllers::ControlAlgorithm;
-    use crate::linear_algebra::vec3D::Vec3D;
+    use linear_algebra::vec::vec3D::Vec3D;
 
     pub struct LinearFeedbackControl {
         pub xt: Vec3D,

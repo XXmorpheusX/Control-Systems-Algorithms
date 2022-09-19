@@ -1,5 +1,5 @@
-use crate::linear_algebra::vec3D::Vec3D;
 use crate::plants::Plant;
+use linear_algebra::vec::vec3D::Vec3D;
 
 pub struct LorenzAttractor {
     pub sigma: f64,
@@ -30,8 +30,8 @@ impl Plant for LorenzAttractor {
 
         // Output preparation
 
-        let mut out_v = Vec3D::new(v1, v2, v3);
-        let mut out_x = self.x + (out_v * ts);
+        let out_v = Vec3D::new(v1, v2, v3);
+        let out_x = self.x + (out_v * ts);
 
         //let out_v = Vec3D::new(0.0, 0.0, 0.0);
         //let out_x = Vec3D::new(x1, x2, x3);
@@ -45,6 +45,5 @@ impl Plant for LorenzAttractor {
 
     fn feed(&mut self, u: Vec3D) {
         self.u = u;
-        //println!("Updating input u to : {}", self.u);
     }
 }

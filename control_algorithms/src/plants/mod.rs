@@ -1,4 +1,4 @@
-use crate::linear_algebra::vec3D::Vec3D;
+use linear_algebra::vec::vec3D::Vec3D;
 
 pub trait Plant {
     fn compute(&mut self, ts: f64) -> (Vec3D, Vec3D);
