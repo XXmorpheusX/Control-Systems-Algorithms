@@ -1,4 +1,5 @@
 use crate::Vec3D;
+use crate::vec::vec3D::Vec3D;
 
 #[test]
 pub fn vec_create_test() {
