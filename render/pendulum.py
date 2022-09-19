@@ -28,6 +28,10 @@ def on_message(client, userdata, message):
         plt.plot(x1, x2)
         plt.show()
 
+        plt.figure()
+        plt.plot(x, y)
+        plt.show()
+
         x.clear()
         y.clear()
         return
