@@ -10,8 +10,9 @@ use control_algorithms::plants::pendulum::Pendulum;
 use control_algorithms::plants::van_der_pol_oscillator::VanDerPolOscillator;
 use control_algorithms::systems::autonomous_regularizer::AutonomousRegularizer;
 use linear_algebra::vec::vec3D::Vec3D;
+use control_algorithms::plants::chua_circuit::ChuaCircuit;
 
-const SIMULATION_TYPE: &'static str = "2D";
+const SIMULATION_TYPE: &'static str = "3D";
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Data {
@@ -28,7 +29,6 @@ fn main() {
     tok.wait().unwrap();
     println!("Mqtt Works correctly.");
 
-    /*
     // System Definition
     let system = AutonomousRegularizer::new(
         VoidControl::new(),
@@ -41,7 +41,6 @@ fn main() {
             Vec3D::new(0.1, 0.2, -0.1),
             Vec3D::new(1.0, -1.0, 0.0)),
     );
-    */
 
     /*
     let system = AutonomousRegularizer::new(
@@ -56,6 +55,7 @@ fn main() {
     );
      */
 
+    /*
     let system = AutonomousRegularizer::new(
         VoidControl::new(),
         Pendulum::new(
@@ -66,6 +66,7 @@ fn main() {
             Vec3D::new(0.785, 0.000, 0.000),
         ),
     );
+    */
 
     /*
     let system = AutonomousRegularizer::new(
