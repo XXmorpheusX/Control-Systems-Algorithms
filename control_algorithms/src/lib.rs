@@ -27,8 +27,6 @@ impl ControlSimulation {
     pub fn step(&mut self) -> (Vec3D, Vec3D) {
         //println!(">>> {:.2}", self.sim_time);
         let res = self.system.step(self.step_time);
-        //println!("---------------");
-        println!("{:.2}%", 100.0 * self.sim_time / self.tf);
 
         self.sim_time += self.step_time;
         res

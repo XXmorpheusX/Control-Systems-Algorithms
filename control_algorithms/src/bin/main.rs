@@ -61,9 +61,9 @@ fn main() {
         Pendulum::new(
             1.0,
             0.8,
-            0.075,
-            Vec3D::new(0.785, 0.0, 0.0),
-            Vec3D::new(0.785, 0.0, 0.0),
+            0.0,
+            Vec3D::new(0.785, 0.000, 0.000),
+            Vec3D::new(0.785, 0.000, 0.000),
         ),
     );
 
@@ -78,7 +78,7 @@ fn main() {
     );
      */
 
-    let mut sim = ControlSimulation::new(system, 30.0, 0.01);
+    let mut sim = ControlSimulation::new(system, 30.0, 0.0001);
 
     loop {
         let (x, v) = sim.step();
@@ -99,8 +99,9 @@ fn main() {
         }
 
         if sim.ended() { break; }
-        sleep(Duration::from_millis(1));
     }
+
+    sleep(Duration::from_secs(3));
 
     match SIMULATION_TYPE {
         "2D" => {
@@ -117,4 +118,12 @@ fn main() {
     println!("Simulation End.");
     sleep(Duration::from_secs(3));
     println!("Stop")
+}
+
+fn clear_screen() {
+    if cfg!(unix) {
+        std::process::Command::new("clear").status().unwrap();
+    } else if cfg!(windows) {
+        std::process::Command::new("cmd").args(&["/c", "cls"]).status().unwrap();
+    }
 }

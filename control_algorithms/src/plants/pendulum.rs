@@ -34,14 +34,12 @@ impl Plant for Pendulum {
         let a2 = ts * self.beta / self.j - 1.0;
         let a3 = -1.0 * ts.powi(2) * self.k / self.j;
         //let b = ts.powi(2) / J;
-        println!("{} - {} - {}", a1, a2, a3);
 
         // Output preparation
         let out_k_2_value = a1 * self.v[1] + a2 * self.x[1] + a3 * f64::sin(self.x[1]);
         let out_k_2 = Vec3D::new(out_k_2_value, 0.0, 0.0);
 
         let out_v = (self.v - self.x) / ts;
-        println!("{} - {} - {}", self.x[1], self.v[1], out_k_2);
 
         // Updating plant state
         self.x = self.v;
